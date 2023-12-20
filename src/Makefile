@@ -23,5 +23,3 @@ dev:
 	air
 
 .PHONY: migrate migrateup1 migratedown migratedown1 new_migration dev
-
-# .PHONY: migrateup migratedown migrateup1 migratedown1 new_migration db_docs db_schema sqlc test server 
