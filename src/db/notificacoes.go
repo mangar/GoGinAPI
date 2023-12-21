@@ -17,7 +17,7 @@ type ContratoEquipamento struct {
 func QueryNotificacoes(db *sql.DB) ([]ContratoEquipamento, error) {
     var contratos []ContratoEquipamento
 
-    rows, err := db.Query("SELECT id, uuid, mensagem FROM Notificacoes")
+    rows, err := db.Query("SELECT id, uuid, mensagem FROM Notificacoes ORDER BY id")
     if err != nil {
 		fmt.Println(err)
     }
