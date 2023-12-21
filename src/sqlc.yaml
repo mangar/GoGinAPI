@@ -7,5 +7,5 @@ sql:
     # path: "./db/sqlc"
     gen:
       go:
-        package: "db.sqlc"
-        out: "sqlc"
+        package: "dbsqlc"
+        out: "./dbsqlc"

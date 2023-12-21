@@ -2,7 +2,9 @@ package main
 
 import (
 	"GoGinAPI/db"
+	"GoGinAPI/dbsqlc"
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -37,10 +39,10 @@ func main() {
 		ctx := context.Background()
 		var con = db.InitDB()
 
-		queries := sql.db.New(con)
+		queries := dbsqlc.New(con)
 		logs, err := queries.GetAllLogs(ctx)
 		if err != nil {
-			return err
+			fmt.Println(err)
 		}
 		
 		con.Close()
