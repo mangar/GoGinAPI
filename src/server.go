@@ -37,7 +37,7 @@ func main() {
 		ctx := context.Background()
 		var con = db.InitDB()
 
-		queries := db.sqlc.db.New(con)
+		queries := sql.db.New(con)
 		logs, err := queries.GetAllLogs(ctx)
 		if err != nil {
 			return err
