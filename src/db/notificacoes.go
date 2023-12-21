@@ -14,7 +14,9 @@ type ContratoEquipamento struct {
 }
 
 
-func QueryNotificacoes(db *sql.DB) {
+func QueryNotificacoes(db *sql.DB) ([]ContratoEquipamento, error) {
+    var contratos []ContratoEquipamento
+
     rows, err := db.Query("SELECT id, uuid, mensagem FROM Notificacoes")
     if err != nil {
 		fmt.Println(err)
@@ -29,10 +31,12 @@ func QueryNotificacoes(db *sql.DB) {
         }
 
         fmt.Println(&contrato)
+        contratos = append(contratos, contrato)
     }
 
     // Verifique se houve erros durante a iteração
     if err = rows.Err(); err != nil {
         fmt.Println(err)
     }
+    return contratos, nil
 }

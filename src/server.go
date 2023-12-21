@@ -2,6 +2,7 @@ package main
 
 import (
 	"GoGinAPI/db"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,7 +26,10 @@ func main() {
 
 		var con = db.InitDB()
 
-		db.QueryNotificacoes(con)
+		registros , err := db.QueryNotificacoes(con)
+		if err != nil {
+			// log.Fatal(err)
+		}
 
 		con.Close()
 
@@ -35,7 +39,8 @@ func main() {
 		// db.queryTable(d)
 
 
-        c.String(200, "Contrato Equipamentos")
+        // c.String(200, "Contrato Equipamentos")
+		c.JSON(http.StatusOK, registros)
     })
 
     r.Run() // por padrão na porta 8080
