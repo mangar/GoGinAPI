@@ -22,15 +22,13 @@ func QueryNotificacoes(db *sql.DB) {
     defer rows.Close()
 
     for rows.Next() {
-        // Supondo que a tabela tenha colunas como id, name, etc.
-        var id int
-		var uuid string
-        var mensagem string
-        err = rows.Scan(&id, &uuid, &mensagem)
+        var contrato ContratoEquipamento        
+        err = rows.Scan(&contrato.Id, &contrato.UUID, &contrato.Mensagem)
         if err != nil {
             fmt.Println(err)
         }
-        fmt.Println(id, uuid, mensagem)
+
+        fmt.Println(&contrato)
     }
 
     // Verifique se houve erros durante a iteração
