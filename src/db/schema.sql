@@ -1,6 +1,6 @@
--- name: GetAllLogs :many
-SELECT * FROM Logs;
-
--- -- name: GetLastLog :one
--- SELECT * FROM Logs
--- WHERE id = (SELECT MAX(id) FROM Logs); 
+CREATE TABLE IF NOT EXISTS Logs
+(
+    id int auto_increment not null,
+    mensagem longtext null,
+    primary key (id)
+);

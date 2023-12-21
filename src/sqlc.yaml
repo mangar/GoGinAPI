@@ -2,7 +2,7 @@ version: "2"
 sql:
   - engine: "mysql"
     queries: "./db/query.sql"
-    # schema: "schema.sql"
+    schema: "./db/schema.sql"
     # name: "db"
     # path: "./db/sqlc"
     gen:

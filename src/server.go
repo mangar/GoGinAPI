@@ -2,6 +2,7 @@ package main
 
 import (
 	"GoGinAPI/db"
+	"context"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,25 +23,27 @@ func main() {
     })
 
 	r.GET("/ContratoEquipamentos", func(c *gin.Context) {
-
-
 		var con = db.InitDB()
-
 		registros , err := db.QueryNotificacoes(con)
 		if err != nil {
 			// log.Fatal(err)
 		}
-
 		con.Close()
-
-		// var conn = db.initDB()
-
-		// var d = db.initDB()
-		// db.queryTable(d)
-
-
-        // c.String(200, "Contrato Equipamentos")
 		c.JSON(http.StatusOK, registros)
+    })
+
+	r.GET("/Logs", func(c *gin.Context) {
+		ctx := context.Background()
+		var con = db.InitDB()
+
+		queries := db.sqlc.db.New(con)
+		logs, err := queries.GetAllLogs(ctx)
+		if err != nil {
+			return err
+		}
+		
+		con.Close()
+		c.JSON(http.StatusOK, logs)
     })
 
     r.Run() // por padrão na porta 8080
