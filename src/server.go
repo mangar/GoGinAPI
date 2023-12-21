@@ -32,6 +32,7 @@ func main() {
 		c.JSON(http.StatusOK, registros)
     })
 
+	
 	r.GET("/Logs", func(c *gin.Context) {
 		ctx := context.Background()
 		var con = db.InitDB()
