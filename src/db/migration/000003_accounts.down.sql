@@ -1,1 +1,1 @@
-DROP TABLE IF NOT EXISTS Accounts;
+DROP TABLE Accounts;
