@@ -7,6 +7,13 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+type ContratoEquipamento struct {
+	Id string `json:"id"`
+	UUID string `json:"uuid"`
+	Mensagem string `json:"mensagem"`
+}
+
+
 func QueryNotificacoes(db *sql.DB) {
     rows, err := db.Query("SELECT id, uuid, mensagem FROM Notificacoes")
     if err != nil {
