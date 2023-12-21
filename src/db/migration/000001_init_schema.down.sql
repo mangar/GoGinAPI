@@ -1,1 +1,1 @@
-DROP TABLE IF NOT EXISTS Notificacoes;
+DROP TABLE Notificacoes;
