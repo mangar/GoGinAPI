@@ -11,3 +11,22 @@ END;
 CALL InsertRecords();
 
 DROP PROCEDURE InsertRecords;
+
+
+-- 
+-- 
+-- 
+
+CREATE PROCEDURE InsertRecords()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    WHILE i <= 100 DO
+        INSERT INTO Logs (mensagem)
+        VALUES (CONCAT('Mensagem.... ', i));
+        SET i = i + 1;
+    END WHILE;
+END;
+
+CALL InsertRecords();
+
+DROP PROCEDURE InsertRecords;

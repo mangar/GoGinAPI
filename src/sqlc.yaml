@@ -3,7 +3,9 @@ sql:
   - engine: "mysql"
     queries: "./db/query.sql"
     # schema: "schema.sql"
+    name: "db"
+    path: "./db/sqlc"
     gen:
       go:
-        package: "tutorial"
-        out: "tutorial"
+        package: "db"
+        out: "db"
