@@ -13,6 +13,7 @@ import (
 type Result struct {
 	StatusCode 	string		`json:"statusCode"`
 	Messages	[]string	`json:"messages"`	
+	IsOK		bool		`json:"isOK"`
 }
 
 type LogActionResult struct {
@@ -27,7 +28,7 @@ type LogActionResult struct {
 
 func LogsAction(c *gin.Context) LogActionResult {
 
-	result := LogActionResult{ Result: Result{StatusCode: "200", Messages: make([]string,0)} } 
+	result := LogActionResult{ Result: Result{StatusCode: "200", Messages: make([]string,0), IsOK: true} } 
 
 	ctx := context.Background()
 	var con = db.InitDB()

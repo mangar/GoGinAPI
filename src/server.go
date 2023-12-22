@@ -26,7 +26,7 @@ func main() {
 		var con = db.InitDB()
 		registros , err := db.QueryNotificacoes(con)
 		if err != nil {
-			// log.Fatal(err)
+			//log.Fatal(err)
 		}
 		con.Close()
 		c.JSON(http.StatusOK, registros)
@@ -34,20 +34,7 @@ func main() {
 
 	
 	r.GET("/Logs", func(c *gin.Context) {
-
-		result := actions.LogsAction(c)
-
-		// ctx := context.Background()
-		// var con = db.InitDB()
-
-		// queries := dbsqlc.New(con)
-		// logs, err := queries.GetAllLogs(ctx)
-		// if err != nil {
-		// 	fmt.Println(err)
-		// }
-		
-		// con.Close()
-		c.JSON(http.StatusOK, result)
+		c.JSON(http.StatusOK, actions.LogsAction(c))
     })
 
     r.Run() // por padrão na porta 8080
