@@ -11,15 +11,23 @@ import (
 
 
 type Result struct {
-	StatusCode 	string
-	Message		string
-	Result		[]dbsqlc.Log
+	StatusCode 	string		`json:"statusCode"`
+	Messages	[]string	`json:"messages"`	
+}
+
+type LogActionResult struct {
+	Result		Result			`json:"result"`
+	LogCont		int				`json:"logCount"`
+	Logs		[]dbsqlc.Log	`json:"logs"`
 }
 
 
-func LogsAction(c *gin.Context) Result {
 
-	result := Result{StatusCode: "", Message: ""}
+
+
+func LogsAction(c *gin.Context) LogActionResult {
+
+	result := LogActionResult{ Result: Result{StatusCode: "200", Messages: make([]string,0)} } 
 
 	ctx := context.Background()
 	var con = db.InitDB()
@@ -33,7 +41,8 @@ func LogsAction(c *gin.Context) Result {
 	
 	con.Close()
 
-	result.Result = logs
+	result.LogCont = len(logs)
+	result.Logs = logs
 	return result
 
 }
