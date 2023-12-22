@@ -3,7 +3,6 @@ package actions
 import (
 	"GoGinAPI/db"
 	"GoGinAPI/dbsqlc"
-	"GoGinAPI/sqlc"
 	"context"
 	"fmt"
 
@@ -53,11 +52,11 @@ func LogsAction(c *gin.Context) LogActionResult {
 }
 
 
-func convertDBLogToLog(logs []sqlc.Log) []LogResult {
+func convertDBLogToLog(logs []dbsqlc.Log) []LogResult {
 	logResults := make([]LogResult, 0, len(logs))
 
 	for _, log := range logs {
-		logResult := LogResult{Id: log.ID, Mensagem: log.Mensagem}
+		logResult := LogResult{Id: int(log.ID), Mensagem: log.Mensagem.String}
 		logResults = append(logResults, logResult)
 	}
 
