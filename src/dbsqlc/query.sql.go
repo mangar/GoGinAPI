@@ -35,3 +35,25 @@ func (q *Queries) GetAllLogs(ctx context.Context) ([]Log, error) {
 	}
 	return items, nil
 }
+
+const getLastLog = `-- name: GetLastLog :one
+SELECT id, mensagem FROM Logs
+WHERE id = (SELECT MAX(id) FROM Logs)
+`
+
+func (q *Queries) GetLastLog(ctx context.Context) (Log, error) {
+	row := q.db.QueryRowContext(ctx, getLastLog)
+	var i Log
+	err := row.Scan(&i.ID, &i.Mensagem)
+	return i, err
+}
+
+const insertLog = `-- name: InsertLog :exec
+INSERT INTO Logs ( mensagem )
+VALUES ($1)
+`
+
+func (q *Queries) InsertLog(ctx context.Context) error {
+	_, err := q.db.ExecContext(ctx, insertLog)
+	return err
+}
