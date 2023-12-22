@@ -17,7 +17,9 @@ type Result struct {
 }
 
 
-func LogsAction(c *gin.Context) []dbsqlc.Log {
+func LogsAction(c *gin.Context) Result {
+
+	result := Result{StatusCode: "", Message: ""}
 
 	ctx := context.Background()
 	var con = db.InitDB()
@@ -31,6 +33,7 @@ func LogsAction(c *gin.Context) []dbsqlc.Log {
 	
 	con.Close()
 
-	return logs
+	result.Result = logs
+	return result
 
 }

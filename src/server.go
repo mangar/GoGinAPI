@@ -35,7 +35,7 @@ func main() {
 	
 	r.GET("/Logs", func(c *gin.Context) {
 
-		logs := actions.LogsAction(c)
+		result := actions.LogsAction(c)
 
 		// ctx := context.Background()
 		// var con = db.InitDB()
@@ -47,7 +47,7 @@ func main() {
 		// }
 		
 		// con.Close()
-		c.JSON(http.StatusOK, logs)
+		c.JSON(http.StatusOK, result)
     })
 
     r.Run() // por padrão na porta 8080
