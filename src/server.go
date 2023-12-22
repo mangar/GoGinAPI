@@ -1,10 +1,8 @@
 package main
 
 import (
+	"GoGinAPI/actions"
 	"GoGinAPI/db"
-	"GoGinAPI/dbsqlc"
-	"context"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -36,16 +34,19 @@ func main() {
 
 	
 	r.GET("/Logs", func(c *gin.Context) {
-		ctx := context.Background()
-		var con = db.InitDB()
 
-		queries := dbsqlc.New(con)
-		logs, err := queries.GetAllLogs(ctx)
-		if err != nil {
-			fmt.Println(err)
-		}
+		logs := actions.LogsAction(c)
+
+		// ctx := context.Background()
+		// var con = db.InitDB()
+
+		// queries := dbsqlc.New(con)
+		// logs, err := queries.GetAllLogs(ctx)
+		// if err != nil {
+		// 	fmt.Println(err)
+		// }
 		
-		con.Close()
+		// con.Close()
 		c.JSON(http.StatusOK, logs)
     })
 
