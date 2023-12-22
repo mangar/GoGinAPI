@@ -9,6 +9,6 @@ import (
 )
 
 type Log struct {
-	ID       int32
-	Mensagem sql.NullString
+	ID       int32			`json:"id"`
+	Mensagem sql.NullString	`json:"mensagem"`
 }

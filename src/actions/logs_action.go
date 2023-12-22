@@ -19,10 +19,13 @@ type Result struct {
 type LogActionResult struct {
 	Result		Result			`json:"result"`
 	LogCont		int				`json:"logCount"`
-	Logs		[]dbsqlc.Log	`json:"logs"`
+	Logs		[]LogResult		`json:"logs"`
 }
 
-
+type LogResult struct {
+	Id			int		`json:"id"`
+	Mensagem 	string 	`json:"mensagem"`
+}
 
 
 
