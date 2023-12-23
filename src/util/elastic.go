@@ -5,20 +5,21 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
 )
 
 type Document struct {
-	ID    string `json:"id"`
 	API string `json:"API"`
 	Status  string `json:"status"`
+	Info	string `json:"info"`
 }
 
 func Elastic(doc Document) error {
-
 	cfg := elasticsearch.Config{
 		Addresses: []string{
 			"http://192.168.1.110:9200", // URL do Elasticsearch
@@ -42,8 +43,8 @@ func Elastic(doc Document) error {
 
 	// Request para indexar o documento
 	req := esapi.IndexRequest{
-		Index:      "seu_indice", // Nome do índice
-		DocumentID: doc.ID,
+		Index:      "API_Monitoring_Indice", // Nome do índice
+		DocumentID: strconv.Itoa(time.Now().Nanosecond()),
 		Body:       bytes.NewReader([]byte(b.String())),
 		Refresh:    "true",
 	}
@@ -62,5 +63,5 @@ func Elastic(doc Document) error {
 		log.Printf("Documento indexado com sucesso: %s", res.String())
 	}
 
-	return nil
+	return err
 }
