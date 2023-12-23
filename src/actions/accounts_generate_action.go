@@ -38,12 +38,13 @@ func AccountsGenerateAction(c *gin.Context) (AccountsActionResult, error) {
 
 	// generateAccounts(10, queries, &ctx)
 
-	account := dbsqlc.Account{Name: sql.NullString{String:"aaaa"}, Email: sql.NullString{String:"bbbb"}}
+	// account := dbsqlc.Account{Name: sql.NullString{String:"aaaa"}, Email: sql.NullString{String:"bbbb"}}
 
-	// _, err := queries.CreateAccount(ctx)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
+	_, err := queries.CreateAccount(ctx, dbsqlc.CreateAccountParams{
+		Name:  sql.NullString{String:"aaaa"}, Email: sql.NullString{String:"aaaa"}})
+	if err != nil {
+		fmt.Println(err)
+	}
 
 
 	// 
