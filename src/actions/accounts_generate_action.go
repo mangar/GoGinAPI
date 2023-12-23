@@ -4,11 +4,11 @@ import (
 	"GoGinAPI/db"
 	"GoGinAPI/dbsqlc"
 	"context"
-	"database/sql"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
+
 
 
 type AccountsActionResult struct {
@@ -56,11 +56,11 @@ func AccountsGenerateAction(c *gin.Context) (AccountsActionResult, error) {
 
 func generateAccounts(count int, queries *dbsqlc.Queries, ctx *context.Context) error {
 
-	account := dbsqlc.Account{
-		Name: sql.NullString{String:"aaaa"}, 
-		Email: sql.NullString{String:"bbbb"}}
+	// account := dbsqlc.Account{
+	// 	Name: sql.NullString{String:"aaaa"}, 
+	// 	Email: sql.NullString{String:"bbbb"}}
 
-	err := queries.InsertAccount(*ctx)
+	err := queries.CreateAccount(*ctx)
 
 	// result, err := queries.InsertAccount(*ctx, account)
 		
