@@ -4,7 +4,6 @@ import (
 	"GoGinAPI/db"
 	"GoGinAPI/dbsqlc"
 	"context"
-	"database/sql"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -51,8 +50,19 @@ func AccountsGenerateAction(c *gin.Context) AccountsActionResult {
 }
 
 
-func generateAccounts(count int, db *sql.DB) {
+func generateAccounts(count int, queries *dbsqlc.Queries, ctx *context.Context) {
+
+	account := dbsqlc.Account{Name: "asdasd", Email: "asdasdasd"}
+
 	
+
+
+	queries.InsertAccount(*ctx, account)
+
+	// result, err := queries.InsertAccount(*ctx, account)
+		
+	
+
 }
 
 
