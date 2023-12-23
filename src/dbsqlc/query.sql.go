@@ -35,6 +35,33 @@ func (q *Queries) GetAccountByEmail(ctx context.Context) (Account, error) {
 	return i, err
 }
 
+const getAccounts = `-- name: GetAccounts :many
+SELECT id, name, email FROM Accounts
+`
+
+func (q *Queries) GetAccounts(ctx context.Context) ([]Account, error) {
+	rows, err := q.db.QueryContext(ctx, getAccounts)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Account
+	for rows.Next() {
+		var i Account
+		if err := rows.Scan(&i.ID, &i.Name, &i.Email); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getAllLogs = `-- name: GetAllLogs :many
 SELECT id, mensagem FROM Logs
 `

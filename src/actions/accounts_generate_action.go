@@ -4,6 +4,8 @@ import (
 	"GoGinAPI/db"
 	"GoGinAPI/dbsqlc"
 	"context"
+	"database/sql"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,35 +37,35 @@ func AccountsGenerateAction(c *gin.Context) AccountsActionResult {
 	// 
 	queries := dbsqlc.New(con)
 	
-	// accounts, err := queries.GetAllLogs(ctx)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
+	accounts, err := queries.GetAccounts(ctx)
+	if err != nil {
+		fmt.Println(err)
+	}
 	
 	con.Close()
 
-	// result.LogCont = len(logs)
-	// result.Logs = convertDBLogToLog(logs)
+	result.AccountsCount = len(accounts)
+	result.Accounts = convertDB(accounts)
 	return result
 
 }
 
 
-func generateAccounts(count int) {
-
+func generateAccounts(count int, db *sql.DB) {
+	
 }
 
 
 
 
 
-// func convertDBLogToLog(logs []dbsqlc.Log) []LogResult {
-// 	logResults := make([]LogResult, 0, len(logs))
+func convertDB(accounts []dbsqlc.Account) []AccountsResult {
+	accountsResult := make([]AccountsResult, 0, len(accounts))
 
-// 	for _, log := range logs {
-// 		logResult := LogResult{Id: int(log.ID), Mensagem: log.Mensagem.String}
-// 		logResults = append(logResults, logResult)
-// 	}
+	for _, r := range accounts {
+		accResult := AccountsResult{Id: int(r.ID), Nome: r.Name.String, Email: r.Email.String}
+		accountsResult = append(accountsResult, accResult)
+	}
 
-// 	return logResults
-// }
+	return accountsResult
+}
