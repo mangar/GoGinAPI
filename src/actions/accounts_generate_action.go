@@ -13,10 +13,10 @@ import (
 type AccountsActionResult struct {
 	Result        Result           `json:"result"`
 	AccountsCount int              `json:"accountsCount"`
-	Accounts      []AccountsResult `json:"accounts"`
+	Accounts      []AccountResult  `json:"accounts"`
 }
 
-type AccountsResult struct {
+type AccountResult struct {
 	Id    int    `json:"id"`
 	Nome  string `json:"nome"`
 	Email string `json:"email"`
@@ -40,12 +40,12 @@ func AccountsGenerateAction(c *gin.Context) (AccountsActionResult, error) {
 
 	account := dbsqlc.Account{Name: sql.NullString{String:"aaaa"}, Email: sql.NullString{String:"bbbb"}}
 
-	_, err := queries.CreateAccount(ctx)
-	if err != nil {
-		fmt.Println(err)
-	}
+	// _, err := queries.CreateAccount(ctx)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 
-	
+
 	// 
 	// 
 
@@ -77,11 +77,11 @@ func AccountsGenerateAction(c *gin.Context) (AccountsActionResult, error) {
 // 	return err
 // }
 
-func convertDB(accounts []dbsqlc.Account) []AccountsResult {
-	accountsResult := make([]AccountsResult, 0, len(accounts))
+func convertDB(accounts []dbsqlc.Account) []AccountResult {
+	accountsResult := make([]AccountResult, 0, len(accounts))
 
 	for _, r := range accounts {
-		accResult := AccountsResult{Id: int(r.ID), Nome: r.Name.String, Email: r.Email.String}
+		accResult := AccountResult{Id: int(r.ID), Nome: r.Name.String, Email: r.Email.String}
 		accountsResult = append(accountsResult, accResult)
 	}
 

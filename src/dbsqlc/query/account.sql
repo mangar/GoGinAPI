@@ -1,14 +1,14 @@
 -- name: CreateAccount :execresult
-INSERT INTO Accounts ( name, email ) VALUES ($1, $2);
+INSERT INTO Accounts ( name, email ) VALUES (?, ?);
 
 -- name: GetAccountByEmail :one
 SELECT * FROM Accounts
-WHERE email = $1
+WHERE email = ?
 LIMIT 1;
 
 -- name: GetAccount :one
 SELECT * FROM Accounts
-WHERE id = $1
+WHERE id = ?
 LIMIT 1;
 
 -- name: GetAccounts :many

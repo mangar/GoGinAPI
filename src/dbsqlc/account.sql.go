@@ -11,21 +11,26 @@ import (
 )
 
 const createAccount = `-- name: CreateAccount :execresult
-INSERT INTO Accounts ( name, email ) VALUES ($1, $2)
+INSERT INTO Accounts ( name, email ) VALUES (?, ?)
 `
 
-func (q *Queries) CreateAccount(ctx context.Context) (sql.Result, error) {
-	return q.db.ExecContext(ctx, createAccount)
+type CreateAccountParams struct {
+	Name  sql.NullString
+	Email sql.NullString
+}
+
+func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, createAccount, arg.Name, arg.Email)
 }
 
 const getAccount = `-- name: GetAccount :one
 SELECT id, name, email FROM Accounts
-WHERE id = $1
+WHERE id = ?
 LIMIT 1
 `
 
-func (q *Queries) GetAccount(ctx context.Context) (Account, error) {
-	row := q.db.QueryRowContext(ctx, getAccount)
+func (q *Queries) GetAccount(ctx context.Context, id int32) (Account, error) {
+	row := q.db.QueryRowContext(ctx, getAccount, id)
 	var i Account
 	err := row.Scan(&i.ID, &i.Name, &i.Email)
 	return i, err
@@ -33,12 +38,12 @@ func (q *Queries) GetAccount(ctx context.Context) (Account, error) {
 
 const getAccountByEmail = `-- name: GetAccountByEmail :one
 SELECT id, name, email FROM Accounts
-WHERE email = $1
+WHERE email = ?
 LIMIT 1
 `
 
-func (q *Queries) GetAccountByEmail(ctx context.Context) (Account, error) {
-	row := q.db.QueryRowContext(ctx, getAccountByEmail)
+func (q *Queries) GetAccountByEmail(ctx context.Context, email sql.NullString) (Account, error) {
+	row := q.db.QueryRowContext(ctx, getAccountByEmail, email)
 	var i Account
 	err := row.Scan(&i.ID, &i.Name, &i.Email)
 	return i, err
