@@ -17,6 +17,7 @@ type Document struct {
 	API string `json:"API"`
 	Status  string `json:"status"`
 	Info	string `json:"info"`
+	Timestamp string `json:"timestamp"`
 }
 
 func Elastic(doc Document) error {
@@ -36,6 +37,7 @@ func Elastic(doc Document) error {
 	// 	Title: "Teste",
 	// 	Body:  "Este é um teste de indexação no Elasticsearch.",
 	// }
+	doc.Timestamp = time.Now().String()
 
 	// Serializar o documento
 	var b strings.Builder
@@ -43,7 +45,7 @@ func Elastic(doc Document) error {
 
 	// Request para indexar o documento
 	req := esapi.IndexRequest{
-		Index:      "API_Monitoring_Indice", // Nome do índice
+		Index:      "api_monitoring_indice", // Nome do índice
 		DocumentID: strconv.Itoa(time.Now().Nanosecond()),
 		Body:       bytes.NewReader([]byte(b.String())),
 		Refresh:    "true",

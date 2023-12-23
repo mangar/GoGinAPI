@@ -30,12 +30,16 @@ func main() {
     })
 
 	r.GET("/ContratoEquipamentos", func(c *gin.Context) {
+		util.Elastic( util.Document{API: "/ContratoEquipamentos", Status: "start"} )
+
 		var con = db.InitDB()
 		registros , err := db.QueryNotificacoes(con)
 		if err != nil {
 			//log.Fatal(err)
 		}
 		con.Close()
+
+		util.Elastic( util.Document{API: "/ContratoEquipamentos", Status: "end", Info: ""} )
 		c.JSON(http.StatusOK, registros)
     })
 
@@ -49,7 +53,7 @@ func main() {
 		util.Elastic( util.Document{API: "/AccountsGenerate", Status: "start"} )
 		result, _ := actions.AccountsGenerateAction(c)
 
-		
+
 		jsonData, err := json.Marshal(result)
 		if err != nil {
 			fmt.Println(err)
