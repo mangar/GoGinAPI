@@ -1,4 +1,4 @@
--- name: CreateAccount :exec
+-- name: CreateAccount :execresult
 INSERT INTO Accounts ( name, email )
 VALUES ($1, $2);
 

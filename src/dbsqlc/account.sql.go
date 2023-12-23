@@ -7,16 +7,16 @@ package dbsqlc
 
 import (
 	"context"
+	"database/sql"
 )
 
-const createAccount = `-- name: CreateAccount :exec
+const createAccount = `-- name: CreateAccount :execresult
 INSERT INTO Accounts ( name, email )
 VALUES ($1, $2)
 `
 
-func (q *Queries) CreateAccount(ctx context.Context) error {
-	_, err := q.db.ExecContext(ctx, createAccount)
-	return err
+func (q *Queries) CreateAccount(ctx context.Context) (sql.Result, error) {
+	return q.db.ExecContext(ctx, createAccount)
 }
 
 const getAccount = `-- name: GetAccount :one

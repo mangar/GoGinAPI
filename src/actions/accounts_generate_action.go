@@ -34,6 +34,13 @@ func AccountsGenerateAction(c *gin.Context) (AccountsActionResult, error) {
 	//
 	// generateAccounts(10, queries, &ctx)
 
+	err := queries.CreateAccount(ctx)
+
+	// 
+	// 
+
+
+
 	accounts, err := queries.GetAccounts(ctx)
 	if err != nil {
 		fmt.Println(err)
