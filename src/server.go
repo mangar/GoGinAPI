@@ -3,6 +3,7 @@ package main
 import (
 	"GoGinAPI/actions"
 	"GoGinAPI/db"
+	"GoGinAPI/util"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -39,7 +40,9 @@ func main() {
 
 
 	r.GET("/AccountsGenerate", func(c *gin.Context) {
+		util.Elastic()
 		result, _ := actions.AccountsGenerateAction(c)
+		util.Elastic()
 		c.JSON(http.StatusOK, result)
     })
 
