@@ -11,8 +11,7 @@ import (
 )
 
 const createAccount = `-- name: CreateAccount :execresult
-INSERT INTO Accounts ( name, email )
-VALUES ($1, $2)
+INSERT INTO Accounts ( name, email ) VALUES ($1, $2)
 `
 
 func (q *Queries) CreateAccount(ctx context.Context) (sql.Result, error) {
