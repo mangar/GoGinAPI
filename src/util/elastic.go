@@ -14,7 +14,8 @@ import (
 )
 
 type Document struct {
-	API string `json:"API"`
+	EntryPoint string `json:"entry_point"`
+	Step string `json:step`
 	Status  string `json:"status"`
 	Info	string `json:"info"`
 	Timestamp string `json:"timestamp"`
