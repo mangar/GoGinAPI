@@ -10,12 +10,6 @@ import (
 )
 
 
-type Result struct {
-	StatusCode 	string		`json:"statusCode"`
-	Messages	[]string	`json:"messages"`	
-	IsOK		bool		`json:"isOK"`
-}
-
 type LogActionResult struct {
 	Result		Result			`json:"result"`
 	LogCont		int				`json:"logCount"`

@@ -9,6 +9,32 @@ import (
 	"context"
 )
 
+const getAccount = `-- name: GetAccount :one
+SELECT id, name, email FROM Accounts
+WHERE id = $1
+LIMIT 1
+`
+
+func (q *Queries) GetAccount(ctx context.Context) (Account, error) {
+	row := q.db.QueryRowContext(ctx, getAccount)
+	var i Account
+	err := row.Scan(&i.ID, &i.Name, &i.Email)
+	return i, err
+}
+
+const getAccountByEmail = `-- name: GetAccountByEmail :one
+SELECT id, name, email FROM Accounts
+WHERE email = $1
+LIMIT 1
+`
+
+func (q *Queries) GetAccountByEmail(ctx context.Context) (Account, error) {
+	row := q.db.QueryRowContext(ctx, getAccountByEmail)
+	var i Account
+	err := row.Scan(&i.ID, &i.Name, &i.Email)
+	return i, err
+}
+
 const getAllLogs = `-- name: GetAllLogs :many
 SELECT id, mensagem FROM Logs
 `
@@ -46,6 +72,16 @@ func (q *Queries) GetLastLog(ctx context.Context) (Log, error) {
 	var i Log
 	err := row.Scan(&i.ID, &i.Mensagem)
 	return i, err
+}
+
+const insertAccount = `-- name: InsertAccount :exec
+INSERT INTO Accounts ( name, email )
+VALUES ($1, $2)
+`
+
+func (q *Queries) InsertAccount(ctx context.Context) error {
+	_, err := q.db.ExecContext(ctx, insertAccount)
+	return err
 }
 
 const insertLog = `-- name: InsertLog :exec

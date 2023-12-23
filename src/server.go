@@ -37,5 +37,11 @@ func main() {
 		c.JSON(http.StatusOK, actions.LogsAction(c))
     })
 
+
+	r.GET("/AccountsGenerate", func(c *gin.Context) {
+		c.JSON(http.StatusOK, actions.AccountsGenerateAction(c))
+    })
+
+
     r.Run() // por padrão na porta 8080
 }

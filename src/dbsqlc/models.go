@@ -8,6 +8,12 @@ import (
 	"database/sql"
 )
 
+type Account struct {
+	ID    int32
+	Name  sql.NullString
+	Email sql.NullString
+}
+
 type Log struct {
 	ID       int32
 	Mensagem sql.NullString
