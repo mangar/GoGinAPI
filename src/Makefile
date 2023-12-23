@@ -19,7 +19,10 @@ migrateforce:
 new_migration:
 	migrate create -ext sql -dir db/migration -seq $(name)
 
+sqlc:
+	sqlc generate
+
 dev:
 	air
 
-.PHONY: migrate migrateup1 migratedown migratedown1 new_migration dev
+.PHONY: migrate migrateup1 migratedown migratedown1 new_migration dev sqlc
