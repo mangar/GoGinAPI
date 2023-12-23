@@ -39,7 +39,8 @@ func main() {
 
 
 	r.GET("/AccountsGenerate", func(c *gin.Context) {
-		c.JSON(http.StatusOK, actions.AccountsGenerateAction(c))
+		result, _ := actions.AccountsGenerateAction(c)
+		c.JSON(http.StatusOK, result)
     })
 
 

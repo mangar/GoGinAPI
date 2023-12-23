@@ -4,6 +4,7 @@ import (
 	"GoGinAPI/db"
 	"GoGinAPI/dbsqlc"
 	"context"
+	"database/sql"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -23,7 +24,7 @@ type AccountsResult struct {
 }
 
 
-func AccountsGenerateAction(c *gin.Context) AccountsActionResult {
+func AccountsGenerateAction(c *gin.Context) (AccountsActionResult, error) {
 
 	result := AccountsActionResult{ Result: Result{StatusCode: "200", Messages: make([]string,0), IsOK: true} } 
 
@@ -31,10 +32,13 @@ func AccountsGenerateAction(c *gin.Context) AccountsActionResult {
 	var con = db.InitDB()
 
 	// 
-	generateAccounts(10, con)
+	queries := dbsqlc.New(con)
+
 
 	// 
-	queries := dbsqlc.New(con)
+	generateAccounts(10, queries, &ctx)
+
+
 	
 	accounts, err := queries.GetAccounts(ctx)
 	if err != nil {
@@ -45,24 +49,22 @@ func AccountsGenerateAction(c *gin.Context) AccountsActionResult {
 
 	result.AccountsCount = len(accounts)
 	result.Accounts = convertDB(accounts)
-	return result
+	return result, err
 
 }
 
 
-func generateAccounts(count int, queries *dbsqlc.Queries, ctx *context.Context) {
+func generateAccounts(count int, queries *dbsqlc.Queries, ctx *context.Context) error {
 
-	account := dbsqlc.Account{Name: "asdasd", Email: "asdasdasd"}
+	account := dbsqlc.Account{
+		Name: sql.NullString{String:"aaaa"}, 
+		Email: sql.NullString{String:"bbbb"}}
 
-	
-
-
-	queries.InsertAccount(*ctx, account)
+	err := queries.InsertAccount(*ctx)
 
 	// result, err := queries.InsertAccount(*ctx, account)
 		
-	
-
+	return err
 }
 
 
