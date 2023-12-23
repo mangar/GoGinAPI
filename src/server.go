@@ -4,7 +4,6 @@ import (
 	"GoGinAPI/actions"
 	"GoGinAPI/db"
 	"GoGinAPI/util"
-	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -34,12 +33,14 @@ func main() {
 
 		var con = db.InitDB()
 		registros , err := db.QueryNotificacoes(con)
+		jsonContent, _ := util.Convert(registros)
+
 		if err != nil {
-			//log.Fatal(err)
+			fmt.Println(err)
 		}
 		con.Close()
 
-		util.Elastic( util.Document{API: "/ContratoEquipamentos", Status: "end", Info: ""} )
+		util.Elastic( util.Document{API: "/ContratoEquipamentos", Status: "end", Info: jsonContent} )
 		c.JSON(http.StatusOK, registros)
     })
 
@@ -52,17 +53,8 @@ func main() {
 	r.GET("/AccountsGenerate", func(c *gin.Context) {
 		util.Elastic( util.Document{API: "/AccountsGenerate", Status: "start"} )
 		result, _ := actions.AccountsGenerateAction(c)
-
-
-		jsonData, err := json.Marshal(result)
-		if err != nil {
-			fmt.Println(err)
-		}
-	
-		// Convertendo os dados JSON para string
-		jsonString := string(jsonData)
-
-		util.Elastic( util.Document{API: "/AccountsGenerate", Status: "end", Info: jsonString } )
+		jsonContent, _ := util.Convert(result)
+		util.Elastic( util.Document{API: "/AccountsGenerate", Status: "end", Info: jsonContent } )
 		c.JSON(http.StatusOK, result)
     })
 
