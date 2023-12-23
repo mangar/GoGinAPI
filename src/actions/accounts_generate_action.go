@@ -7,6 +7,7 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/brianvoe/gofakeit/v6"
 	"github.com/gin-gonic/gin"
 )
 
@@ -34,14 +35,12 @@ func AccountsGenerateAction(c *gin.Context) (AccountsActionResult, error) {
 
 	//
 	// 
-
-
 	// generateAccounts(10, queries, &ctx)
 
 	// account := dbsqlc.Account{Name: sql.NullString{String:"aaaa"}, Email: sql.NullString{String:"bbbb"}}
-
 	_, err := queries.CreateAccount(ctx, dbsqlc.CreateAccountParams{
-		Name:  sql.NullString{String:"aaaa"}, Email: sql.NullString{String:"aaaa"}})
+		Name: sql.NullString{String: gofakeit.Name(), Valid: true }, 
+		Email: sql.NullString{String: gofakeit.Email(), Valid: true}})
 	if err != nil {
 		fmt.Println(err)
 	}
