@@ -46,7 +46,7 @@ func Elastic(doc Document) error {
 
 	// Request para indexar o documento
 	req := esapi.IndexRequest{
-		Index:      "api_monitoring_indice", // Nome do índice
+		Index:      "api_monitoring_2_indice", // Nome do índice
 		DocumentID: strconv.Itoa(time.Now().Nanosecond()),
 		Body:       bytes.NewReader([]byte(b.String())),
 		Refresh:    "true",
