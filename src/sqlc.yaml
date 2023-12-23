@@ -2,9 +2,7 @@ version: "2"
 sql:
   - engine: "mysql"
     queries: "dbsqlc/query"
-    schema: "dbsqlc/migration"
-    # name: "db"
-    # path: "./db/sqlc"
+    schema:  "dbsqlc/migration"
     gen:
       go:
         package: "dbsqlc"

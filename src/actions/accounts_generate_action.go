@@ -9,42 +9,36 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
-
 type AccountsActionResult struct {
-	Result			Result				`json:"result"`
-	AccountsCount	int					`json:"accountsCount"`
-	Accounts		[]AccountsResult	`json:"accounts"`
+	Result        Result           `json:"result"`
+	AccountsCount int              `json:"accountsCount"`
+	Accounts      []AccountsResult `json:"accounts"`
 }
 
 type AccountsResult struct {
-	Id		int			`json:"id"`
-	Nome	string		`json:"nome"`
-	Email	string		`json:"email"`
+	Id    int    `json:"id"`
+	Nome  string `json:"nome"`
+	Email string `json:"email"`
 }
-
 
 func AccountsGenerateAction(c *gin.Context) (AccountsActionResult, error) {
 
-	result := AccountsActionResult{ Result: Result{StatusCode: "200", Messages: make([]string,0), IsOK: true} } 
+	result := AccountsActionResult{Result: Result{StatusCode: "200", Messages: make([]string, 0), IsOK: true}}
 
 	ctx := context.Background()
 	var con = db.InitDB()
 
-	// 
+	
 	queries := dbsqlc.New(con)
 
+	//
+	// generateAccounts(10, queries, &ctx)
 
-	// 
-	generateAccounts(10, queries, &ctx)
-
-
-	
 	accounts, err := queries.GetAccounts(ctx)
 	if err != nil {
 		fmt.Println(err)
 	}
-	
+
 	con.Close()
 
 	result.AccountsCount = len(accounts)
@@ -53,23 +47,18 @@ func AccountsGenerateAction(c *gin.Context) (AccountsActionResult, error) {
 
 }
 
+// func generateAccounts(count int, queries *dbsqlc.Queries, ctx *context.Context) error {
 
-func generateAccounts(count int, queries *dbsqlc.Queries, ctx *context.Context) error {
+// 	// account := dbsqlc.Account{
+// 	// 	Name: sql.NullString{String:"aaaa"},
+// 	// 	Email: sql.NullString{String:"bbbb"}}
 
-	// account := dbsqlc.Account{
-	// 	Name: sql.NullString{String:"aaaa"}, 
-	// 	Email: sql.NullString{String:"bbbb"}}
+// 	err := queries.CreateAccount(*ctx)
 
-	err := queries.CreateAccount(*ctx)
+// 	// result, err := queries.InsertAccount(*ctx, account)
 
-	// result, err := queries.InsertAccount(*ctx, account)
-		
-	return err
-}
-
-
-
-
+// 	return err
+// }
 
 func convertDB(accounts []dbsqlc.Account) []AccountsResult {
 	accountsResult := make([]AccountsResult, 0, len(accounts))
