@@ -15,9 +15,11 @@ import (
 
 type Document struct {
 	EntryPoint string `json:"entry_point"`
+	RequestID string `json:"request_id"`
 	Step string `json:step`
 	Status  string `json:"status"`
 	Info	string `json:"info"`
+	Duracao int `json:duracao`
 	Timestamp string `json:"timestamp"`
 }
 

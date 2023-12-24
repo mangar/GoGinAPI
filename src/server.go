@@ -6,68 +6,67 @@ import (
 	"GoGinAPI/util"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 
+func LogarDuracaoMiddleware(c *gin.Context) {
+	inicio := time.Now()
+	url := c.Request.URL.Path
+	request_id := util.GenerateRequestId(url)
+	util.Elastic( util.Document{RequestID: request_id, EntryPoint: url, Step: "start"} )
+
+    c.Next() // Processa o request
+
+    duracao := time.Since(inicio)
+	util.Elastic( util.Document{RequestID: request_id, EntryPoint: url, Step: "end", Duracao: int(duracao.Seconds())  } )
+}
 
 
 
 func main() {
     r := gin.Default()
+	r.Use(LogarDuracaoMiddleware)
+
+
     r.GET("/", func(c *gin.Context) {
-		util.Elastic( util.Document{EntryPoint: "/", Step: "start"} )
-		util.Elastic( util.Document{EntryPoint: "/", Step: "end"} )
         c.String(200, "Olá, Gin!")
     })
 
 	r.GET("/version", func(c *gin.Context) {		
-		util.Elastic( util.Document{EntryPoint: "/version", Step: "start"} )
-
 		version := "v.0.0.1"
-		
-		util.Elastic( util.Document{EntryPoint: "/version", Step: "end", Info: "Version:" + version} )
         c.String(200, version)
     })
 
 	r.GET("/ContratoEquipamentos", func(c *gin.Context) {
-		util.Elastic( util.Document{EntryPoint: "/ContratoEquipamentos", Step: "start"} )
-
 		var con = db.InitDB()
 		registros , err := db.QueryNotificacoes(con)
-		jsonContent, _ := util.Convert(registros)
 
 		if err != nil {
 			fmt.Println(err)
 		}
 		con.Close()
 
-		util.Elastic( util.Document{EntryPoint: "/ContratoEquipamentos", Step: "end", Info: jsonContent} )
 		c.JSON(http.StatusOK, registros)
     })
 
 	
 	r.GET("/Logs", func(c *gin.Context) {
-		util.Elastic( util.Document{EntryPoint: "/Logs", Step: "start"} )
-
 		result, _ := actions.LogsAction(c)
-
-		util.Elastic( util.Document{EntryPoint: "/Logs", Step: "end"} )
 		c.JSON(http.StatusOK, result)
     })
 
 
 	r.GET("/AccountsGenerate", func(c *gin.Context) {
-		util.Elastic( util.Document{EntryPoint: "/AccountsGenerate", Step: "start"} )
-
 		result, _ := actions.AccountsGenerateAction(c)
-		jsonContent, _ := util.Convert(result)
-
-		util.Elastic( util.Document{EntryPoint: "/AccountsGenerate", Step: "end", Info: jsonContent } )
 		c.JSON(http.StatusOK, result)
     })
 
 
     r.Run() // por padrão na porta 8080
 }
+
+
+
