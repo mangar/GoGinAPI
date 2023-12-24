@@ -23,7 +23,7 @@ type LogResult struct {
 
 
 
-func LogsAction(c *gin.Context) LogActionResult {
+func LogsAction(c *gin.Context) (LogActionResult, error) {
 
 	result := LogActionResult{ Result: Result{StatusCode: "200", Messages: make([]string,0), IsOK: true} } 
 
@@ -41,8 +41,7 @@ func LogsAction(c *gin.Context) LogActionResult {
 
 	result.LogCont = len(logs)
 	result.Logs = convertDBLogToLog(logs)
-	return result
-
+	return result, err
 }
 
 

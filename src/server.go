@@ -22,10 +22,11 @@ func main() {
         c.String(200, "Olá, Gin!")
     })
 
-	r.GET("/version", func(c *gin.Context) {
-		
+	r.GET("/version", func(c *gin.Context) {		
 		util.Elastic( util.Document{EntryPoint: "/version", Step: "start"} )
+
 		version := "v.0.0.1"
+		
 		util.Elastic( util.Document{EntryPoint: "/version", Step: "end", Info: "Version:" + version} )
         c.String(200, version)
     })
@@ -48,14 +49,21 @@ func main() {
 
 	
 	r.GET("/Logs", func(c *gin.Context) {
-		c.JSON(http.StatusOK, actions.LogsAction(c))
+		util.Elastic( util.Document{EntryPoint: "/Logs", Step: "start"} )
+
+		result, _ := actions.LogsAction(c)
+
+		util.Elastic( util.Document{EntryPoint: "/Logs", Step: "end"} )
+		c.JSON(http.StatusOK, result)
     })
 
 
 	r.GET("/AccountsGenerate", func(c *gin.Context) {
 		util.Elastic( util.Document{EntryPoint: "/AccountsGenerate", Step: "start"} )
+
 		result, _ := actions.AccountsGenerateAction(c)
 		jsonContent, _ := util.Convert(result)
+
 		util.Elastic( util.Document{EntryPoint: "/AccountsGenerate", Step: "end", Info: jsonContent } )
 		c.JSON(http.StatusOK, result)
     })
